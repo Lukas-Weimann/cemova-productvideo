@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cemova Introduction</title>
+  <meta name="robots" content="noindex">
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; }
+    body { display: flex; align-items: center; justify-content: center; }
+    video { width: 100%; max-height: 100vh; }
+    #unmute {
+      position: fixed; top: 16px; right: 16px;
+      padding: 10px 16px; border: 0; border-radius: 999px;
+      background: rgba(255,255,255,0.9); color: #000;
+      font: 600 15px/1 system-ui, sans-serif; cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <video id="v" controls playsinline autoplay preload="auto"
+         controlsList="nodownload" disablePictureInPicture
+         oncontextmenu="return false;">
+    <source src="Cemova-Introduction.mp4" type="video/mp4">
+    Your browser can't play this video.
+  </video>
+  <button id="unmute" type="button">🔊 Tap for sound</button>
+
+  <script>
+    const v = document.getElementById('v');
+    const btn = document.getElementById('unmute');
+
+    // Try to play with sound; most browsers only allow autoplay when muted.
+    v.muted = false;
+    v.play().catch(() => {
+      v.muted = true;
+      v.play().catch(() => {});
+      btn.style.display = 'block';
+    });
+
+    btn.addEventListener('click', () => {
+      v.muted = false;
+      v.play();
+      btn.style.display = 'none';
+    });
+
+    v.addEventListener('volumechange', () => {
+      if (!v.muted) btn.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
